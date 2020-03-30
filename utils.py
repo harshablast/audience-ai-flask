@@ -8,8 +8,10 @@ def get_frames(video_path, fps):
     frame_count = 0
     
     cap = cv2.VideoCapture(video_path)
+    vid_fps = cap.get(cv2.CAP_PROP_FPS)
     
-    frame_skip = (60/fps) - 1
+    frame_skip = (vid_fps/fps) - 1
+    frame_skip = int(frame_skip)
     
     while(cap.isOpened()):
         
@@ -37,9 +39,15 @@ def to_dict(video_frame_preds):
     num_frames = len(video_frame_preds)
     video_frame_scores = []
     
+    print(video_frame_preds)
+    
     for frame in video_frame_preds:
+        
+        if(type(frame) == list):
+            continue
+        
         frame_score = np.mean(frame, axis=0)
-        frame_score = list(frame_score)
+        frame_score = frame_score.tolist()
         video_frame_scores.append(frame_score)
     
     request_dict = {

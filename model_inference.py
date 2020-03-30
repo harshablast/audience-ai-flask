@@ -1,3 +1,7 @@
+import numpy as np
+import cv2
+from utils import preprocess_input
+
 def run_retinaface(video_frames, face_img_queue):
     
     import tensorflow as tf
